@@ -12,30 +12,39 @@
 </head>
 <body>
 
-    <audio id="audioPlayer" loop>
-        <source src="https://ivannorega.github.io/val/palagi.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let audio = document.getElementById("audioPlayer");
-    
-            // Retrieve saved playback time
-            let savedTime = localStorage.getItem("audioTime");
-            if (savedTime) {
-                audio.currentTime = parseFloat(savedTime);
-            }
-    
-            // Try to autoplay (may require user interaction)
-            audio.play().catch(error => console.log("Autoplay blocked: " + error));
-    
-            // Save the playback position every second
-            audio.addEventListener("timeupdate", function() {
-                localStorage.setItem("audioTime", audio.currentTime);
-            });
+<audio id="audioPlayer" loop muted>
+    <source src="https://github.com/ivannorega/val/raw/refs/heads/main/palagi.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    document.addEventListener("click", function() {
+        let audio = document.getElementById("audioPlayer");
+        audio.muted = false;  // Unmute when the user clicks
+        audio.play();         // Start playing audio after the click
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let audio = document.getElementById("audioPlayer");
+
+        // Retrieve saved playback time
+        let savedTime = localStorage.getItem("audioTime");
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        // Try to autoplay (may require user interaction, handled in the click event)
+        // Autoplay is not guaranteed due to browser restrictions
+        audio.play().catch(error => console.log("Autoplay blocked: " + error));
+
+        // Save the playback position every second
+        audio.addEventListener("timeupdate", function() {
+            localStorage.setItem("audioTime", audio.currentTime);
         });
-    </script>
+    });
+</script>
+
     
     
     
